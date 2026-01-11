@@ -37,7 +37,7 @@ export const Menu: React.FC = () => {
           </div>
         )}
 
-        {/* central */}
+        {/* central part for showing geometory */}
         <div className={`${status === GameStatus.CONFIGURING ? 'col-span-5' : 'col-span-7'} relative`}>
           <div className="absolute bottom-12 left-12 p-4 border-l-2 border-cyan-500 bg-black/20 backdrop-blur-sm pointer-events-auto">
             <p className="text-[10px] text-cyan-400 mb-1 tracking-tighter">
@@ -57,7 +57,7 @@ export const Menu: React.FC = () => {
           )}
         </div>
 
-        {/* 右侧交互区 */}
+        {/* right zone for departure */}
         <div className={`${status === GameStatus.CONFIGURING ? 'col-span-3' : 'col-span-5'} bg-black/60 backdrop-blur-xl border-l border-white/10 flex flex-col justify-between pointer-events-auto ${status === GameStatus.CONFIGURING ? 'p-6' : 'p-12'}`}>
           {status === GameStatus.MENU && (
             <>
@@ -152,7 +152,7 @@ export const Menu: React.FC = () => {
                   onClick={reset}
                   className="w-full py-2 text-xs text-gray-500 hover:text-white uppercase tracking-[0.4em] transition-colors"
                 >
-                  [ ABORT_MISSION ]
+                  [ QUIT_MISSION ]
                 </button>
               </div>
             </div>
