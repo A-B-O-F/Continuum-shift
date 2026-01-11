@@ -25,11 +25,6 @@ export const Renderer: React.FC = () => {
       <Suspense fallback={null}>
         <ambientLight intensity={0.4} />
         <spotLight position={[10, 20, 10]} angle={0.5} penumbra={1} intensity={2} castShadow />
-
-        {/* 
-            不再对 Player 和 SceneManager 进行条件判断。
-            它们始终存在，由 Player 内部的 useFrame 根据 status 决定是否移动。
-        */}
         <Player />
         <SceneManager />
 

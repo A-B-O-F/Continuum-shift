@@ -9,7 +9,7 @@ function App() {
   const isDamaged = useGameState(state => state.isDamaged);
   
   return (
-    // 使用 custom transition: 进入(受击)极快，恢复(正常)平滑
+    // custom transition
     <div className={`
       relative w-full h-full bg-black 
       transition-[filter,transform] 

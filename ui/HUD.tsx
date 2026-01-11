@@ -29,7 +29,7 @@ export const HUD: React.FC = () => {
 
   return (
     <>
-      {/* Damage Flash Overlay - 优化透明度过渡 */}
+      {/* Damage Flash Overlay*/}
       <div className={`
         absolute inset-0 pointer-events-none z-30 transition-opacity 
         ${isDamaged ? 'duration-75 opacity-100' : 'duration-500 opacity-0'}
