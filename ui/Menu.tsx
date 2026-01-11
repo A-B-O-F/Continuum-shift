@@ -97,7 +97,7 @@ export const Menu: React.FC = () => {
                     <span>NEURAL MOVEMENT</span>
                   </div>
                   <div className="flex flex-col border-l border-cyan-500/30 pl-2">
-                    <span className="text-cyan-400 font-bold">[SPACE]</span>
+                    <span className="text-cyan-400 font-bold">[SPACE] [CLICK]</span>
                     <span>DISCHARGE WEAPON</span>
                   </div>
                   <div className="flex flex-col border-l border-green-500/30 pl-2">
@@ -112,6 +112,9 @@ export const Menu: React.FC = () => {
                 <div className="mt-4 pt-3 border-t border-white/10">
                   <p className="text-[9px] text-gray-500 italic">
                     1=CUBE(GREEN) • 2=PYRAMID(YELLOW) • 3=SPHERE(RED) // I=FOLLOW • O=HIGH • P=TOP_RIGHT
+                  </p>
+                  <p className="text-[9px] text-cyan-400/60 italic mt-1">
+                    💡 TIP: Click anywhere on screen to shoot
                   </p>
                 </div>
               </div>

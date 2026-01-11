@@ -49,17 +49,17 @@ export const Player: React.FC = () => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const k = e.key.toLowerCase();
-      
+
       if (k === '1') setShape(PlayerShape.CUBE);
       if (k === '2') setShape(PlayerShape.PYRAMID);
       if (k === '3') setShape(PlayerShape.SPHERE);
-      
+
       if (k === 'i') setCameraView(CameraView.FOLLOW);
       if (k === 'o') setCameraView(CameraView.HIGH);
       if (k === 'p') setCameraView(CameraView.TOP_RIGHT);
 
       if (status !== GameStatus.PLAYING) return;
-      
+
       if (['w','arrowup'].includes(k)) keys.current.w = true;
       if (['a','arrowleft'].includes(k)) keys.current.a = true;
       if (['s','arrowdown'].includes(k)) keys.current.s = true;
@@ -73,6 +73,7 @@ export const Player: React.FC = () => {
         }
       }
     };
+
     const handleKeyUp = (e: KeyboardEvent) => {
       const k = e.key.toLowerCase();
       if (['w','arrowup'].includes(k)) keys.current.w = false;
@@ -80,11 +81,25 @@ export const Player: React.FC = () => {
       if (['s','arrowdown'].includes(k)) keys.current.s = false;
       if (['d','arrowright'].includes(k)) keys.current.d = false;
     };
+
+    const handleMouseClick = () => {
+      if (status !== GameStatus.PLAYING) return;
+
+      const now = Date.now();
+      if (now - lastShootTime.current >= WEAPON_COOLDOWN[playerShape]) {
+        triggerShoot();
+        lastShootTime.current = now;
+      }
+    };
+
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener('click', handleMouseClick);
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener('click', handleMouseClick);
     };
   }, [status, setShape, setCameraView, triggerShoot, playerShape]);
 
