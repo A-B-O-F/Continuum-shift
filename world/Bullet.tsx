@@ -21,7 +21,7 @@ interface BulletProps {
 
 export const Bullet: React.FC<BulletProps> = ({ position, color, width, length }) => {
   const groupRef = useRef<Group>(null);
-  const debugMode = useGameState(state => state.debugMode);
+  const showDebugBoxes = useGameState(state => state.customConfig.showDebugBoxes);
 
   useFrame(() => {
     if (groupRef.current) groupRef.current.position.copy(position);
@@ -32,7 +32,7 @@ export const Bullet: React.FC<BulletProps> = ({ position, color, width, length }
       <mesh>
         <boxGeometry args={[width, 0.1, length]} />
         <meshBasicMaterial color={color} transparent opacity={0.6} />
-        {debugMode && <Edges color="#ff0000" lineWidth={2} />}
+        {showDebugBoxes && <Edges color="#ff0000" lineWidth={2} />}
       </mesh>
       <mesh scale={[0.5, 1.2, 0.9]}>
         <boxGeometry args={[width, 0.1, length]} />

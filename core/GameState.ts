@@ -10,6 +10,28 @@ interface MissionConfig {
   density: number;
   speedMultiplier: number;
   totalDistance?: number;
+
+  // Player Configuration
+  playerInitialHP: number;
+  playerMaxHP: number;
+
+  // Movement Speeds
+  cubeSpeed: number;
+  pyramidSpeed: number;
+  sphereSpeed: number;
+
+  // Weapon Cooldowns (ms)
+  cubeCooldown: number;
+  pyramidCooldown: number;
+  sphereCooldown: number;
+
+  // Bullet Stats
+  cubeDamage: number;
+  pyramidDamage: number;
+  sphereDamage: number;
+
+  // Visual Debug
+  showDebugBoxes: boolean;
 }
 
 interface GameState {
@@ -21,8 +43,7 @@ interface GameState {
   cameraView: CameraView;
   distance: number;
   maxDistance: number;
-  debugMode: boolean;
-  isDamaged: boolean; 
+  isDamaged: boolean;
   customConfig: MissionConfig;
   
   playerRef: React.MutableRefObject<Group | null> | null;
@@ -42,7 +63,6 @@ interface GameState {
   heal: () => void;
   addScore: (amount: number) => void;
   updateDistance: (z: number) => void;
-  toggleDebug: () => void;
   reset: () => void;
 }
 
@@ -54,10 +74,9 @@ export const useGameState = create<GameState>((set, get) => ({
   hp: PLAYER_CONFIG.INITIAL_HP,
   score: 0,
   playerShape: PlayerShape.CUBE,
-  cameraView: CameraView.TOP_RIGHT, 
+  cameraView: CameraView.TOP_RIGHT,
   distance: 0,
   maxDistance: LEVEL_MODE_CONFIG.TOTAL_DISTANCE,
-  debugMode: false,
   isDamaged: false,
   playerRef: null,
   shootSignal: 0,
@@ -65,7 +84,19 @@ export const useGameState = create<GameState>((set, get) => ({
     tortuosity: 1.0,
     density: 0.4,
     speedMultiplier: 1.0,
-    totalDistance: 500
+    totalDistance: 500,
+    playerInitialHP: PLAYER_CONFIG.INITIAL_HP,
+    playerMaxHP: PLAYER_CONFIG.MAX_HP,
+    cubeSpeed: 0.15,
+    pyramidSpeed: 0.25,
+    sphereSpeed: 0.40,
+    cubeCooldown: 600,
+    pyramidCooldown: 300,
+    sphereCooldown: 120,
+    cubeDamage: 3,
+    pyramidDamage: 1.5,
+    sphereDamage: 1,
+    showDebugBoxes: false
   },
 
   setMode: (mode) => set({ mode }),
@@ -80,7 +111,19 @@ export const useGameState = create<GameState>((set, get) => ({
         tortuosity: base.TORTUOSITY,
         density: base.OBSTACLE_DENSITY,
         speedMultiplier: 1.0,
-        totalDistance: mode === GameMode.LEVEL ? base.TOTAL_DISTANCE : 999999
+        totalDistance: mode === GameMode.LEVEL ? base.TOTAL_DISTANCE : 999999,
+        playerInitialHP: PLAYER_CONFIG.INITIAL_HP,
+        playerMaxHP: PLAYER_CONFIG.MAX_HP,
+        cubeSpeed: 0.15,
+        pyramidSpeed: 0.25,
+        sphereSpeed: 0.40,
+        cubeCooldown: 600,
+        pyramidCooldown: 300,
+        sphereCooldown: 120,
+        cubeDamage: 3,
+        pyramidDamage: 1.5,
+        sphereDamage: 1,
+        showDebugBoxes: false
       }
     });
   },
@@ -114,7 +157,6 @@ export const useGameState = create<GameState>((set, get) => ({
   setCameraView: (view) => set({ cameraView: view }),
   setPlayerRef: (ref) => set({ playerRef: ref }),
   triggerShoot: () => set(() => ({ shootSignal: Date.now() })),
-  toggleDebug: () => set((state) => ({ debugMode: !state.debugMode })),
 
   takeDamage: () => {
     const { hp, status } = get();

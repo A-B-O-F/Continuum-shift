@@ -1,29 +1,12 @@
 import React from 'react';
 import { useGameState } from '../core/GameState';
 import { GameStatus, GameMode } from '../core/types';
+import { DebugPanel } from './DebugPanel';
 
 export const Menu: React.FC = () => {
-  const { status, enterConfig, startGame, customConfig, updateCustomConfig, score, reset, mode } = useGameState();
+  const { status, enterConfig, startGame, score, reset, mode } = useGameState();
 
   if (status === GameStatus.PLAYING) return null;
-
-  const renderConfigSlider = (label: string, value: number, min: number, max: number, step: number, onChange: (val: number) => void) => (
-    <div className="mb-6">
-      <div className="flex justify-between text-[10px] text-cyan-400 mb-2 tracking-widest uppercase">
-        <span>{label}</span>
-        <span className="font-bold">{value.toFixed(2)}</span>
-      </div>
-      <input 
-        type="range" 
-        min={min} 
-        max={max} 
-        step={step} 
-        value={value}
-        onChange={(e) => onChange(parseFloat(e.target.value))}
-        className="w-full h-1 bg-white/10 appearance-none cursor-pointer accent-cyan-500 hover:accent-cyan-400"
-      />
-    </div>
-  );
 
   return (
     <div className="absolute inset-0 z-20 flex flex-col font-mono text-white pointer-events-none">
@@ -110,10 +93,6 @@ export const Menu: React.FC = () => {
                     <span className="text-purple-400 font-bold">[I] [O] [P]</span>
                     <span>CAMERA MODES</span>
                   </div>
-                  <div className="flex flex-col border-l border-yellow-500/30 pl-2 col-span-2">
-                    <span className="text-yellow-400 font-bold">[F]</span>
-                    <span>TOGGLE DEBUG HUD</span>
-                  </div>
                 </div>
                 <div className="mt-4 pt-3 border-t border-white/10">
                   <p className="text-[9px] text-gray-500 italic">
@@ -126,27 +105,28 @@ export const Menu: React.FC = () => {
 
           {status === GameStatus.CONFIGURING && (
             <>
-              <div className="animate-in fade-in slide-in-from-right-8 duration-500">
-                <h2 className="text-2xl font-black mb-8 italic flex items-center justify-between">
-                  SYSTEM OVERRIDE
-                  <span className="text-[10px] bg-red-500/20 text-red-400 px-2 py-1 not-italic border border-red-500/30">UNSAFE_MODE</span>
-                </h2>
-                
-                {renderConfigSlider("Spatial Tortuosity", customConfig.tortuosity, 0.5, 3.0, 0.1, (v) => updateCustomConfig({ tortuosity: v }))}
-                {renderConfigSlider("Obstacle Density", customConfig.density, 0.1, 1.0, 0.05, (v) => updateCustomConfig({ density: v }))}
-                {renderConfigSlider("Temporal Velocity", customConfig.speedMultiplier, 0.5, 2.5, 0.1, (v) => updateCustomConfig({ speedMultiplier: v }))}
-                
-                {mode === GameMode.LEVEL && renderConfigSlider("Mission Range (m)", customConfig.totalDistance || 500, 100, 2000, 50, (v) => updateCustomConfig({ totalDistance: v }))}
+              <div className="flex-1 overflow-y-auto mb-6">
+                <div className="mb-6">
+                  <h2 className="text-2xl font-black mb-2 italic flex items-center justify-between">
+                    SYSTEM OVERRIDE
+                    <span className="text-[10px] bg-red-500/20 text-red-400 px-2 py-1 not-italic border border-red-500/30">UNSAFE_MODE</span>
+                  </h2>
+                  <p className="text-xs text-cyan-400/60 mb-6 tracking-wider">
+                    Configure all game parameters using lil-gui interface
+                  </p>
+                </div>
+
+                <DebugPanel />
               </div>
 
               <div className="flex flex-col gap-4">
-                <button 
+                <button
                   onClick={startGame}
                   className="w-full py-8 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-2xl transition-all shadow-[0_0_30px_rgba(6,182,212,0.4)] uppercase tracking-tighter"
                 >
                   ENGAGE SYSTEM
                 </button>
-                <button 
+                <button
                   onClick={reset}
                   className="w-full py-2 text-xs text-gray-500 hover:text-white uppercase tracking-[0.4em] transition-colors"
                 >

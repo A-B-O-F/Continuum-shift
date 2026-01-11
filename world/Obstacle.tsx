@@ -23,7 +23,7 @@ interface ObstacleProps {
 
 export const Obstacle: React.FC<ObstacleProps> = ({ type, position, shape, hp }) => {
   const groupRef = useRef<Group>(null);
-  const debugMode = useGameState(state => state.debugMode);
+  const showDebugBoxes = useGameState(state => state.customConfig.showDebugBoxes);
 
   useFrame(() => {
     if (groupRef.current) groupRef.current.position.copy(position);
@@ -41,7 +41,7 @@ export const Obstacle: React.FC<ObstacleProps> = ({ type, position, shape, hp })
         <mesh castShadow>
           <boxGeometry args={[1.5, 1.5, 1.5]} />
           <meshStandardMaterial color="#333" metalness={0.9} roughness={0.1} />
-          {debugMode && (
+          {showDebugBoxes && (
              <group scale={[obstacleScale, obstacleScale, obstacleScale]}>
                 <Edges threshold={15} color="#ff00ff" lineWidth={2} />
              </group>
@@ -55,7 +55,7 @@ export const Obstacle: React.FC<ObstacleProps> = ({ type, position, shape, hp })
           <mesh>
             <dodecahedronGeometry args={[0.9]} />
             <meshStandardMaterial color="orange" transparent opacity={0.8} />
-            {debugMode && (
+            {showDebugBoxes && (
                <group scale={[breakableScale, breakableScale, breakableScale]}>
                   <Edges threshold={10} color="#ff00ff" lineWidth={2} />
                </group>
@@ -76,7 +76,7 @@ export const Obstacle: React.FC<ObstacleProps> = ({ type, position, shape, hp })
           <octahedronGeometry args={[0.5]} />
           <meshStandardMaterial color="cyan" emissive="cyan" emissiveIntensity={1} />
           <pointLight distance={3} color="cyan" intensity={1} />
-          {debugMode && (
+          {showDebugBoxes && (
              <group scale={[collectibleScale, collectibleScale, collectibleScale]}>
                 <Edges threshold={15} color="#00ff00" lineWidth={2} />
              </group>
@@ -96,7 +96,7 @@ export const Obstacle: React.FC<ObstacleProps> = ({ type, position, shape, hp })
               } 
               transparent opacity={0.3} side={2} 
             />
-            {debugMode && (
+            {showDebugBoxes && (
               <group scale={[1, 1, HIT_BOX.PORTAL_THICKNESS * 20]}>
                 <boxGeometry args={[14, 9, 0.1]} />
                 <Edges color="#ffff00" lineWidth={2} />

@@ -22,7 +22,7 @@ const BOUNDS_Y = 4;
 export const Player: React.FC = () => {
   const groupRef = useRef<Group>(null);
   const meshRef = useRef<Mesh>(null);
-  const { playerShape, cameraView, setShape, setCameraView, updateDistance, status, setPlayerRef, triggerShoot, toggleDebug, debugMode, isDamaged, customConfig } = useGameState();
+  const { playerShape, cameraView, setShape, setCameraView, updateDistance, status, setPlayerRef, triggerShoot, isDamaged, customConfig } = useGameState();
   const { camera } = useThree();
   
   const [visualShape, setVisualShape] = useState(playerShape);
@@ -65,7 +65,6 @@ export const Player: React.FC = () => {
       if (['s','arrowdown'].includes(k)) keys.current.s = true;
       if (['d','arrowright'].includes(k)) keys.current.d = true;
 
-      if (k === 'f') toggleDebug();
       if (k === ' ') {
         const now = Date.now();
         if (now - lastShootTime.current >= WEAPON_COOLDOWN[playerShape]) {
@@ -87,7 +86,7 @@ export const Player: React.FC = () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [status, setShape, setCameraView, triggerShoot, playerShape, toggleDebug]);
+  }, [status, setShape, setCameraView, triggerShoot, playerShape]);
 
   useFrame((state, delta) => {
     if (!groupRef.current) return;
@@ -192,13 +191,13 @@ export const Player: React.FC = () => {
             {visualShape === PlayerShape.CUBE && <boxGeometry args={[1, 1, 1]} />}
             {visualShape === PlayerShape.PYRAMID && <coneGeometry args={[0.8, 1.2, 4]} />}
             {visualShape === PlayerShape.SPHERE && <sphereGeometry args={[0.6, 32, 32]} />}
-            <meshStandardMaterial 
-              color={ColorMap[visualShape]} 
-              emissive={ColorMap[visualShape]} 
-              emissiveIntensity={(status === GameStatus.MENU || status === GameStatus.CONFIGURING) ? 1.5 : 0.6} 
+            <meshStandardMaterial
+              color={ColorMap[visualShape]}
+              emissive={ColorMap[visualShape]}
+              emissiveIntensity={(status === GameStatus.MENU || status === GameStatus.CONFIGURING) ? 1.5 : 0.6}
             />
-            
-            {debugMode && (
+
+            {customConfig.showDebugBoxes && (
               <group scale={[playerHitScale / scaleRef.current, playerHitScale / scaleRef.current, playerHitScale / scaleRef.current]}>
                  <Edges threshold={15} color="#00ffff" lineWidth={3} />
               </group>
