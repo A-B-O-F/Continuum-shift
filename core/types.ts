@@ -1,0 +1,34 @@
+export enum PlayerShape {
+  CUBE = 'CUBE',
+  PYRAMID = 'PYRAMID',
+  SPHERE = 'SPHERE',
+}
+
+export enum GameStatus {
+  MENU = 'MENU',
+  CONFIGURING = 'CONFIGURING',
+  PLAYING = 'PLAYING',
+  GAME_OVER = 'GAME_OVER',
+  VICTORY = 'VICTORY',
+}
+
+export enum GameMode {
+  LEVEL = 'LEVEL',
+  INFINITE = 'INFINITE',
+}
+
+export enum CameraView {
+  FOLLOW = 'FOLLOW',
+  HIGH = 'HIGH',
+  TOP_RIGHT = 'TOP_RIGHT',
+  DIAGNOSTIC = 'DIAGNOSTIC',
+}
+
+export enum ObstacleType {
+  BREAKABLE = 'BREAKABLE',
+  UNBREAKABLE = 'UNBREAKABLE',
+  PORTAL_CUBE = 'PORTAL_CUBE',
+  PORTAL_PYRAMID = 'PORTAL_PYRAMID',
+  PORTAL_SPHERE = 'PORTAL_SPHERE',
+  COLLECTIBLE = 'COLLECTIBLE',
+}
