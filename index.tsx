@@ -4,9 +4,11 @@ import { Renderer } from './three/Renderer';
 import { HUD } from './ui/HUD';
 import { Menu } from './ui/Menu';
 import { useGameState } from './core/GameState';
+import { useMusicManager } from './core/useMusicManager';
 
 function App() {
   const isDamaged = useGameState(state => state.isDamaged);
+  useMusicManager();
   
   return (
     // custom transition
