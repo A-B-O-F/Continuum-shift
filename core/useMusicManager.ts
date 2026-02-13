@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback} from 'react';
 import { useGameState } from './GameState';
 import { GameStatus, GameMode } from './types';
 
@@ -8,7 +8,7 @@ const TRACKS = {
   endless: new URL('../music/endless-mode.mp3', import.meta.url).href,
 };
 
-const REPLAY_DELAY = 5000; // 5 seconds after track ends
+const REPLAY_DELAY = 2500; // 5 seconds after track ends
 
 function getTrackKey(status: GameStatus, mode: GameMode): keyof typeof TRACKS {
   if (status === GameStatus.PLAYING) {
@@ -116,4 +116,13 @@ export function useMusicManager() {
       }
     };
   }, []);
+
+const unlockAndPlay = useCallback(() => {
+    userInteractedRef.current = true;
+    if (audioRef.current) {
+      audioRef.current.play().catch(() => {});
+    }
+  }, []);
+
+  return { unlockAndPlay };
 }
